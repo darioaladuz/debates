@@ -14,6 +14,14 @@ const app = express();
 
 dbConfig();
 
+const tokenExtractor = (req, res, next) => {
+  const authorization = req.get('authorization');
+  if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+      req.token = authorization.split(' ')[1];
+  }
+  next();
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -21,6 +29,7 @@ app.set('view engine', 'jade');
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
+app.use(tokenExtractor);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
