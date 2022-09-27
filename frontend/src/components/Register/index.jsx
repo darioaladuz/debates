@@ -1,6 +1,10 @@
 import usersService from "../../services/usersService";
+import { useContext } from "react";
+import { UserContext } from "../../UserContext";
+import { Navigate } from "react-router-dom";
 
     export default function Register(){
+        const { user } = useContext(UserContext);
 
         const handleRegister = async e => {
             e.preventDefault();
@@ -21,8 +25,12 @@ import usersService from "../../services/usersService";
             }
         }
 
+        if(user){
+            return <Navigate to="/" />
+        }
+
         return (
-            <form onSubmit={ handleRegister } className="register">
+            <form onSubmit={ handleRegister } className="register" action="">
                 <input type="text" name="username" required placeholder="username0847" />
                 <input type="text" name="email" required placeholder="yourname@gmail.com" />
                 <input type="password" name="password" required placeholder="********" />

@@ -11,4 +11,6 @@ router.post('/login', usersController.login);
 
 router.get('/test', usersController.test);
 
+// router.get('/update_schema', usersController.updateSchema);
+
 module.exports = router;

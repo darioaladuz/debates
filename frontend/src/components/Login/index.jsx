@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { UserContext } from "../../UserContext";
 import usersService from "../../services/usersService";
+import { Navigate } from "react-router-dom";
 
 export default function Login(){
-    const { setUser } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -23,12 +24,19 @@ export default function Login(){
           console.log(error);
         }
       }
+    
+    if(user){
+        return <Navigate to="/" />
+    }
 
     return (
-        <form onSubmit={ handleLogin } action="" class="login">
+        <div className="page login-page auth-page">
+          <h2>Log In</h2>
+          <form onSubmit={ handleLogin } action="" className="login">
             <input type="text" name="username" required placeholder="username0847" />
             <input type="password" name="password" required placeholder="********" />
             <input type="submit" value="Log In" name="submit" />
-        </form>
+          </form>
+        </div>
     )
 }

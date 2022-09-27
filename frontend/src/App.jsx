@@ -1,9 +1,16 @@
+import "./App.scss";
 import { useState, useEffect, useMemo } from 'react';
 import Header from './components/Header';
 import Login from './components/Login';
 import Register from './components/Register';
 import usersService from './services/usersService';
 import { UserContext } from "./UserContext";
+import { 
+  BrowserRouter,
+  Routes,
+  Route
+ } from 'react-router-dom';
+import Home from './components/Home';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -11,12 +18,11 @@ function App() {
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   useEffect(() => {
-    const getUsers = async () => {
-      const allUsers = await usersService.getAll();
-      console.log(allUsers);
-    }
-
-    getUsers();
+      const loggedUser = window.localStorage.getItem('user');
+      if(loggedUser) {
+        setUser(JSON.parse(loggedUser));
+        usersService.setToken(JSON.parse(loggedUser).token);
+      }
   }, [])
 
   
@@ -29,11 +35,14 @@ function App() {
   return (
     <div className="App">
       <UserContext.Provider value={ value }>
-        <Header />
-        <h1>Debates</h1>
-
-        <Register />
-        <Login />
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </BrowserRouter>
       </UserContext.Provider>
 
       

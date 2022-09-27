@@ -8,7 +8,6 @@ exports.getAll = async(req, res, next) => {
         .find({});
 
         users.forEach(user => {
-            console.log(user);
             delete user.id;
         })
     
@@ -104,6 +103,15 @@ exports.login = async (req, res, next) => {
         token
     })
 }
+
+// exports.updateSchema = async (req, res, next) => {
+//     await User.find( { debates : { $exists : false } } ).forEach(user => {
+//         user.debates = [];
+//         User.save(user);
+//     })
+
+//     return res.json({ message: "done" })
+// }
 
 exports.test = async (req, res, next) => {
     try {

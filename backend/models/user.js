@@ -12,7 +12,12 @@ const UserSchema = mongoose.Schema({
     passwordHash: {
         type: String,
         required: true
-    }
+    },
+    debates: [{
+        type: 
+            mongoose.Schema.Types.ObjectId,
+        ref: "Debate"
+    }]
 })
 
 UserSchema.set('toJSON', {
